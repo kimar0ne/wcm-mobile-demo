@@ -1,0 +1,44 @@
+<webapp-structure>
+  <registeredFiles>
+    <entry>
+      <string>currentBuild</string>
+      <path-set>
+        <pathsSet class="linked-hash-set">
+          <string>demo.manifest</string>
+          <string>index.html</string>
+          <string>jqtouch/jqtouch.css</string>
+          <string>jqtouch/jqtouch.js</string>
+          <string>jqtouch/jqtouch.min.css</string>
+          <string>jqtouch/jqtouch.min.js</string>
+          <string>jqtouch/jqtouch.transitions.js</string>
+          <string>jqtouch/jquery.1.3.2.min.js</string>
+          <string>jqtouch/jquery.1.4.2.min.js</string>
+          <string>js/dataService.js</string>
+          <string>js/effects.js</string>
+          <string>js/mobileUI.js</string>
+          <string>js/template.js</string>
+          <string>README</string>
+          <string>skin/exomobile.css</string>
+          <string>skin/img/back_button.png</string>
+          <string>skin/img/back_button_clicked.png</string>
+          <string>skin/img/button.png</string>
+          <string>skin/img/button_clicked.png</string>
+          <string>skin/img/chevron.png</string>
+          <string>skin/img/chevron_circle.png</string>
+          <string>skin/img/exo.png</string>
+          <string>skin/img/grayButton.png</string>
+          <string>skin/img/loading.gif</string>
+          <string>skin/img/on_off.png</string>
+          <string>skin/img/rowhead.png</string>
+          <string>skin/img/toggle.png</string>
+          <string>skin/img/toggleOn.png</string>
+          <string>skin/img/toolbar.png</string>
+          <string>skin/img/whiteButton.png</string>
+          <string>WEB-INF/gatein-resources.xml</string>
+          <string>WEB-INF/web.xml</string>
+        </pathsSet>
+      </path-set>
+    </entry>
+  </registeredFiles>
+  <dependenciesInfo/>
+</webapp-structure>
