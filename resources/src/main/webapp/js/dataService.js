@@ -44,16 +44,16 @@ function startDatabase(){
 		function(transaction){
 			transaction.executeSql(
 				'CREATE TABLE IF NOT EXISTS categories ' +
-				'  (path TEXT NOT NULL, ' +
-				'   name TEXT NOT NULL, parent_id TEXT NOT NULL, ' +
-				'   icon TEXT, type TEXT NOT NULL, PRIMARY KEY(path, parent_id));', 
+				'  (name TEXT NOT NULL, ' +
+				'   parentPath TEXT NOT NULL, ' +
+				'   icon TEXT, type TEXT NOT NULL, PRIMARY KEY(name, parentPath));', 
 				[], null, errorHandler);	
 				
 			transaction.executeSql(
 				'CREATE TABLE IF NOT EXISTS articles ' +
-				'  (path TEXT NOT NULL PRIMARY KEY, ' +
-				'   name TEXT NOT NULL, content TEXT NOT NULL, ' +
-				'   icon TEXT);', 
+				'  (name TEXT NOT NULL, ' +
+				'   parent_path TEXT, content TEXT NOT NULL, ' +
+				'   icon TEXT, path TEXT NOT NULL PRIMARY KEY);', 
 				[], null, errorHandler);	
 		}			
 	);		
@@ -66,8 +66,8 @@ function createCategoryEntry(parentId, entry) {
     db.transaction(
         function(transaction) {			
             transaction.executeSql(
-   				  'INSERT OR REPLACE INTO categories (path, name, parent_id, icon, type) VALUES (?, ?, ?, ?, ?);', 
-                [entry.path, entry.name, parentId, entry.icon, entry.type], null, errorHandler
+   				  'INSERT OR REPLACE INTO categories (name, parentPath, icon, type) VALUES (?, ?, ?, ?);', 
+                [entry.name, parentId, entry.icon, entry.type], null, errorHandler
             );
         }
     );
@@ -75,13 +75,13 @@ function createCategoryEntry(parentId, entry) {
 }
 
 //Create an article entry
-function createArticleEntry(entry) {
+function createArticleEntry(parentId, entry) {
 	
     db.transaction(
         function(transaction) {			
             transaction.executeSql(
-   				  'INSERT OR REPLACE INTO articles (path, name, content, icon) VALUES (?, ?, ?, ?);', 
-                [entry.path, entry.name, entry.content, entry.icon], null, errorHandler
+   				  'INSERT OR REPLACE INTO articles (name, parent_path, content, icon, path) VALUES (?, ?, ?, ?, ?);', 
+                [entry.name, entry.parentPath, entry.content, entry.icon, parentId], null, errorHandler
             );
         }
     );
@@ -94,7 +94,7 @@ function getCategoriesFromDatabase(path, callback){
 	db.transaction(
         function(transaction) {
             transaction.executeSql(
-                'SELECT * FROM categories WHERE parent_id=?;',[path],
+                'SELECT * FROM categories WHERE parentPath=?;',[path],
                
 			    function(transaction, result){
 					callback(result);

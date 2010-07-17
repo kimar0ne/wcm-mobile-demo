@@ -9,6 +9,6 @@
   <component>
     <type>org.exoplatform.ecm.REST.category.CategoryContentRESTService</type>
   </component>  	
-    
+  
 
 </configuration>
