@@ -145,11 +145,3 @@ function dropEntries(){
     );
 }
 
-
-
-
-
-
-
-
-
