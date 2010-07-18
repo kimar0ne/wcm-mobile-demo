@@ -1,8 +1,8 @@
 /**
  * @author markdowney
  */
-/*jslint browser:true */
-/*global alert: false, confirm: false, console: false, prompt: false, window: true, $: true */
+/*jslint */
+/*global document:true, navigator:true, $: true, tmpl:true, dataService */
 "use strict";
 
 (function () {
@@ -17,60 +17,6 @@
             //startupScreen: 'jqt_startup.png',
             statusBar: 'black'
         });
-    
-    
-    $(document).ready(function () { 
-    
-        online = navigator.onLine;
-        
-        $('#title').append(" (online: " + online + ")");
-        
-        startDatabase();
-        //deleteEntries();    
-            
-        //Define the root taxonomyTree
-            
-        //initialize the current path    
-        current_path.push(taxonomyTree);
-            
-        //if online mode, get root categories and add to menu
-        if (online) {
-            getCategoriesFromRest(current_path.join('/'), function (categories) {        
-                addCategories("_" + taxonomyTree, categories.lstNode);
-            });
-        }
-        
-        //if offline, load from db and add to menu
-        else {
-    
-            getCategoriesFromDatabase("_" + taxonomyTree, function (result) {
-                    
-                var categories = [], i, row;        
-                for (i = 0; i < result.rows.length; i += 1) {
-                    row = result.rows.item(i);                   
-                    categories.push(row);
-                }
-                addCategories("_" + taxonomyTree, categories);            
-            });
-        }    
-        
-        $('.category').live('pageAnimationStart', function (e, info) {
-            if (info.direction === 'in') {
-                handleCategoryLink($(this).attr('id'));
-            } else if (info.direction === 'out') {
-                handleBackButton();    
-            }                                                             
-        });
-    
-        $('.article').live('pageAnimationStart', function (e, info) {
-            if (info.direction === 'in') {
-                handleArticleLink($(this).attr('id'));    
-            } else if (info.direction === 'out') {
-                handleBackButton();
-            }                             
-        });
-        
-    });
     
     
     //Adds the <li> element to the parent menu and creates a new <div> menu
@@ -100,7 +46,7 @@
         for (var i = 0; i < categories.length; i += 1) {
             categories[i].parentPath = categories[i].parentPath.replace(/\//g, '_').replace(/ /g, '-');
             if (online) {
-                createCategoryEntry(parent_id, categories[i]);
+                dataService.createCategoryEntry(parent_id, categories[i]);
             }    
             categoryTemplate(parent_id, categories[i]);
         }
@@ -118,13 +64,13 @@
             //if online, get all childs fromREST service
             if (online) {
                     
-                getCategoriesFromRest(current_path.join('/'), function (childCategories) {
+                dataService.getCategoriesFromRest(current_path.join('/'), function (childCategories) {
                     addCategories(category_link, childCategories.lstNode);                
                 });
             }
             else {
                 //if offline, load from db
-                getCategoriesFromDatabase(category_link, function (result) {
+                dataService.getCategoriesFromDatabase(category_link, function (result) {
                                     
                     var categories = [], i, row;        
                     for (i = 0; i < result.rows.length; i += 1) {
@@ -149,14 +95,13 @@
         if (!$("#" + article_link + " .article_content p").length) {
             if (online) {
                             
-                getArticleFromRest(current_path.join('/'), function (article) {
+                dataService.getArticleFromRest(current_path.join('/'), function (article) {
                     $("#" + article_link + ' .article_content').append('<p>').append(article.content).append('</p>');
                     var path = (article.parentPath + "/" + article.name).replace(/\//g, '_').replace(/ /g, '-');                
-                    createArticleEntry(article_link, article);
+                    dataService.createArticleEntry(article_link, article);
                 });
-            }
-            else {
-                getArticleFromDatabase(article_link.substring(article_link.lastIndexOf('_')), function (result) {
+            } else {
+                dataService.getArticleFromDatabase(article_link.substring(article_link.lastIndexOf('_')), function (result) {
                     var article = result.rows.item(0);
                     $("#" + article_link + ' .article_content').append('<p>').append(article.content).append('</p>');
     
@@ -170,5 +115,59 @@
         current_path.pop();
         alert("poped: " + current_path.join('/'));
     }
+    
+    
+    $(document).ready(function () { 
+    
+        online = navigator.onLine;
+        
+        $('#title').append(" (online: " + online + ")");
+        
+        dataService.startDatabase();
+        //deleteEntries();    
+            
+        //Define the root taxonomyTree
+            
+        //initialize the current path    
+        current_path.push(taxonomyTree);
+            
+        //if online mode, get root categories and add to menu
+        if (online) {
+            dataService.getCategoriesFromRest(current_path.join('/'), function (categories) {        
+                addCategories("_" + taxonomyTree, categories.lstNode);
+            });
+        }
+        
+        //if offline, load from db and add to menu
+        else {
+    
+            dataService.getCategoriesFromDatabase("_" + taxonomyTree, function (result) {
+                    
+                var categories = [], i, row;        
+                for (i = 0; i < result.rows.length; i += 1) {
+                    row = result.rows.item(i);                   
+                    categories.push(row);
+                }
+                addCategories("_" + taxonomyTree, categories);            
+            });
+        }    
+        
+        $('.category').live('pageAnimationStart', function (e, info) {
+            if (info.direction === 'in') {
+                handleCategoryLink($(this).attr('id'));
+            } else if (info.direction === 'out') {
+                handleBackButton();    
+            }                                                             
+        });
+    
+        $('.article').live('pageAnimationStart', function (e, info) {
+            if (info.direction === 'in') {
+                handleArticleLink($(this).attr('id'));    
+            } else if (info.direction === 'out') {
+                handleBackButton();
+            }                             
+        });
+        
+    });
 
 }());
