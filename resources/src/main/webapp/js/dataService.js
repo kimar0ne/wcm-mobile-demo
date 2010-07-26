@@ -1,6 +1,11 @@
 /**
+<<<<<<< HEAD
+* @author markdowney
+*/
+=======
  * @author markdowney
  */
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
 /*jslint */
 /*global openDatabase: true, $: true */
 "use strict";
@@ -16,10 +21,16 @@ var dataService = (function () {
     
     return {
         
+<<<<<<< HEAD
+        //return the child categories and article of the category passed as an argument
+        getCategoriesFromRest: function (currentCategory, callback) {
+            
+=======
         //return the child categories and article of the category passed as an argument 
         getCategoriesFromRest: function (currentCategory, callback) {
             
             //alert("start rest call to " + "/ecmdemo/rest-ecmdemo/categories/all/repository/" + currentCategory + "/");    
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
             $.getJSON("/ecmdemo/rest-ecmdemo/categories/all/repository/" + currentCategory + "/", callback);
             
         },
@@ -31,9 +42,15 @@ var dataService = (function () {
             
             $.getJSON("/ecmdemo/rest-ecmdemo/categories/articles/repository/" + articlePath, callback);
         
+<<<<<<< HEAD
+        },
+            
+        //Initialise the database
+=======
         },   
             
         //Initialise the database    
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
         startDatabase: function () {
                 
             var shortName = 'eXo',
@@ -46,6 +63,36 @@ var dataService = (function () {
             db.transaction(
                 function (transaction) {
                     transaction.executeSql(
+<<<<<<< HEAD
+                        'CREATE TABLE IF NOT EXISTS categories ' +
+                        ' (name TEXT NOT NULL, ' +
+                        ' parentPath TEXT NOT NULL, ' +
+                        ' icon TEXT, type TEXT NOT NULL,' +
+						' local_path TEXT NOT NULL, ' +
+						' PRIMARY KEY(name, parentPath));',
+                        [], null, errorHandler);
+                        
+                    transaction.executeSql(
+                        'CREATE TABLE IF NOT EXISTS articles ' +
+                        ' (name TEXT NOT NULL, ' +
+                        ' parentPath TEXT, content TEXT NOT NULL, ' +
+                        ' icon TEXT, local_path TEXT NOT NULL, ' +
+						' PRIMARY KEY(name, parentPath));',
+                        [], null, errorHandler);
+                }
+            );
+        },
+        
+        
+        //Create a category entry in the database
+        createCategoryEntry: function (parentId, entry, local_path) {
+            
+            db.transaction(
+                function (transaction) {
+                    transaction.executeSql(
+                             'INSERT OR REPLACE INTO categories (name, parentPath, icon, type, local_path) VALUES (?, ?, ?, ?, ?);',
+                        [entry.name, parentId, entry.icon, entry.type, local_path], null, errorHandler
+=======
                         'CREATE TABLE IF NOT EXISTS categories '  + 
                         '  (name TEXT NOT NULL, '  + 
                         '   parentPath TEXT NOT NULL, '  + 
@@ -85,6 +132,27 @@ var dataService = (function () {
                     transaction.executeSql(
                              'INSERT OR REPLACE INTO articles (name, parent_path, content, icon, path) VALUES (?, ?, ?, ?, ?);', 
                         [entry.name, entry.parentPath, entry.content, entry.icon, parentId], null, errorHandler
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
+                    );
+                }
+            );
+            return false;
+        },
+        
+<<<<<<< HEAD
+        //Create an article entry
+        createArticleEntry: function (parentId, entry, local_path) {
+=======
+        //get all child categories of 'path' from database
+        getCategoriesFromDatabase: function (path, callback) {
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
+            
+            db.transaction(
+                function (transaction) {
+                    transaction.executeSql(
+<<<<<<< HEAD
+                             'INSERT OR REPLACE INTO articles (name, parentPath, content, icon, local_path) VALUES (?, ?, ?, ?, ?);',
+                        [entry.name, parentId, entry.content, entry.icon, local_path], null, errorHandler
                     );
                 }
             );
@@ -93,10 +161,7 @@ var dataService = (function () {
         
         //get all child categories of 'path' from database
         getCategoriesFromDatabase: function (path, callback) {
-            
-            db.transaction(
-                function (transaction) {
-                    transaction.executeSql(
+=======
                         'SELECT * FROM categories WHERE parentPath=?;', [path],
                         function (transaction, result) {
                             callback(result);
@@ -108,16 +173,59 @@ var dataService = (function () {
         
         //get an article from database
         getArticleFromDatabase: function (path, callback) {
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
             
             db.transaction(
                 function (transaction) {
                     transaction.executeSql(
+<<<<<<< HEAD
+                        'SELECT * FROM categories WHERE local_path=?;', [path],
+=======
                         'SELECT * FROM articles WHERE path=?;', [path],
+                       
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
+                        function (transaction, result) {
+                            callback(result);
+                        }, errorHandler);
+                }
+<<<<<<< HEAD
+            );
+        },
+        
+        
+        //get an article from database
+        getArticleFromDatabase: function (path, callback) {
+            
+            db.transaction(
+                function (transaction) {
+                    transaction.executeSql(
+                        'SELECT * FROM articles WHERE local_path=?;', [path],
                        
                         function (transaction, result) {
                             callback(result);
                         }, errorHandler);
                 }
+            );
+        },
+        
+        
+        
+        //delete all entries
+        deleteEntries: function () {
+            
+            db.transaction(
+                function (transaction) {
+                    transaction.executeSql('DELETE FROM categories;', null, errorHandler);
+                    transaction.executeSql('DELETE FROM articles;', null, errorHandler);
+                }
+                
+            );
+        },
+        
+
+    };
+}());
+=======
             );
         },
         
@@ -146,3 +254,4 @@ var dataService = (function () {
         }
     };
 }());
+>>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
