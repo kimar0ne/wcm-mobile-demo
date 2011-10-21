@@ -1,24 +1,24 @@
 <!doctype html>
 <html manifest="demo.manifest">
     <head>
-    	
+
         <meta charset="UTF-8" />
         <meta http-equiv="content-script-type" content="text/javascript">
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        
+
 		<title>WCM News Reader</title>
-        
+
 		<style type="text/css" media="screen">@import "/mobile/jqtouch/jqtouch.min.css";</style>
         <style type="text/css" media="screen">@import "/mobile/skin/exomobile.css";</style>
         <link rel="apple-touch-icon" href="skin/img/exo.png" />
-		
+
 <<<<<<< HEAD
         <script src="/mobile/jqtouch/jquery.1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="/mobile/jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"> </script>
         <script src ="/mobile/js/dataService.js" type="text/javascript" charset="utf-8"></script>
         <script src ="/mobile/js/template.js" type="text/javascript" charset="utf-8"></script>
         <script src ="/mobile/js/mobileUI.js" type="text/javascript" charset="utf-8"></script>
-       
+
 	    <!-- Template for category list element -->
         <script type="text/html" id="category_li_template">
             <li class="forward">
@@ -27,25 +27,25 @@
         </script>
 =======
 		<link rel="apple-touch-icon" href="skin/img/exo.png" />
-        
+
 		<script src="/mobile/jqtouch/jquery.1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="/mobile/jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
-        
+
 		<script src ="/mobile/js/dataService.js" type="text/javascript" charset="utf-8"></script>
 		<script src ="/mobile/js/template.js" type="text/javascript" charset="utf-8"></script>
 		<script src ="/mobile/js/mobileUI.js" type="text/javascript" charset="utf-8"></script>
-		
+
 
 		<!-- Template for category list element -->
-		
-		<script type="text/html" id="category_li_template">		
-				<li class="forward"><a class="category_li" href="#<%=parentPath+'_'+name%>"><%=name%></a></li>	
+
+		<script type="text/html" id="category_li_template">
+				<li class="forward"><a class="category_li" href="#<%=parentPath+'_'+name%>"><%=name%></a></li>
 		</script>
-		
+
 		<!-- Template for a category menu -->
 >>>>>>> 7b653f0b28fe86c6f6e85c2c0309a8833d5110d4
-		
-		
+
+
         <!-- Template for a category menu -->
         <script type="text/html" id="category_menu_template">
             <div class="category" id="<%=parentPath+'_'+name.replace(/ /g, '-')%>">
@@ -57,14 +57,14 @@
                 </ul>
             </div>
         </script>
-		
+
         <!-- Template for an article list element -->
         <script type="text/html" id="article_li_template">
             <li class="arrow">
                 <a class="article_li" href="#<%=parentPath+'_'+name.replace(/ /g, '-')%>"><%=name %></a>
             </li>
         </script>
-		
+
         <!-- Template for displaying an article -->
         <script type="text/html" id="article_menu_template">
             <div class="article" id="<%=parentPath+'_'+name.replace(/ /g, '-')%>">
@@ -79,8 +79,8 @@
         </script>
     </head>
     <body>
-    	
-		
+
+
         <!-- ABOUT BUTTON -->
         <div id="about" class="selectable">
             <!-- TODO <p><img src="eXo.png" /></p> -->
@@ -95,29 +95,29 @@
             <p>
                 <a href="http://twitter.com/exoplatform" target="_blank">www.exoplatform.com</a>
             </p>
-			<p>                       
+			<p>
 				Change taxonomy tree: <br />
 				<input placeholder="Taxonomy tree" type="text" name="taxonomy" id="taxonomyInput" /><br />
 				 <a class="grayButton" id="taxonomyButton">Submit</a>
 			</p>
-			
+
             <p>
                 <br/>
                 <br/>
                 <a href="#" class="grayButton goback">Close</a>
             </p>
         </div>
-		
-       
+
+
 	   <!-- HOME PAGE-->
         <div id="home" class="current">
-            
-			
+
+
 			<div class="toolbar">
                 <h1 id="title"></h1>
                 <a class="button slideup" id="infoButton" href="#about">About</a>
             </div>
-			
+
             <ul class="rounded">
                 <!-- root categories injected here -->
             </ul>
