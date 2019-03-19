@@ -38,7 +38,7 @@ import org.exoplatform.services.rest.resource.ResourceContainer;
  * node: Return all document in this CategoryNode {@link CategoryNode} if
  * catePath points to a document node: Return this document node
  * {@link DocumentContent}
- * 
+ *
  * @author hoanghung JUL 01, 2010
  */
 
@@ -52,7 +52,7 @@ public class CategoryContentRESTService implements ResourceContainer {
 			.getLogger(CategoryContentRESTService.class.getName());
 
 	private List<String> documentTypes = new ArrayList<String>();
-	
+
 	public CategoryContentRESTService(TaxonomyService taxonomyService,
 			TemplateService templateService, LinkManager linkManager)
 			throws Exception {
@@ -157,7 +157,7 @@ public class CategoryContentRESTService implements ResourceContainer {
 					taxonomyNode = taxonomyNode.getNode(path);
 				}
 				if (linkManager_.isLink(taxonomyNode)) {
-					List<Node> taxonomyTrees = taxonomyService_.getAllTaxonomyTrees(repoName); 	
+					List<Node> taxonomyTrees = taxonomyService_.getAllTaxonomyTrees(repoName);
 					docNode = getArticleContent(linkManager_.getTarget(taxonomyNode), taxonomyTrees);
 					return Response.ok(docNode, new MediaType("application", "json"))
 							.build();
@@ -181,7 +181,7 @@ public class CategoryContentRESTService implements ResourceContainer {
 	}
 
 	private CategoryNode getCategoryNode(Node node, String parentPath) {
-		
+
 		CategoryNode categoryNode = null;
 		try {
 			if (node.isNodeType("exo:taxonomy")) {
@@ -204,7 +204,7 @@ public class CategoryContentRESTService implements ResourceContainer {
 	}
 
 	/**
-	 * Get content of document node. Content is got by exo:content or exo:text or exo:summary 
+	 * Get content of document node. Content is got by exo:content or exo:text or exo:summary
 	 * @param node
 	 * @return
 	 * @throws Exception
@@ -223,9 +223,9 @@ public class CategoryContentRESTService implements ResourceContainer {
 		if (node.hasProperty("exo:summary")) {
 			documentContent.setContent(node.getProperty("exo:summary").getString());
 		}
-  	
+
 		List<Node> categories = taxonomyService_.getAllCategories(node);
-		
+
 		CategoryNode categoryNode;
 		for (Node category : categories) {
 			categoryNode = getCategoryNode(category, "");
@@ -387,12 +387,12 @@ public class CategoryContentRESTService implements ResourceContainer {
 			this.lstNode = lstNode;
 		}
 	}
-	
+
 	public class NameComparator implements Comparator<CategoryNode> {
 		@Override
 		public int compare(CategoryNode o1, CategoryNode o2) {
 			return o1.getName().compareTo(o2.getName());
 		}
 	}
-	
+
 }
